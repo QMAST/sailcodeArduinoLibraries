@@ -25,12 +25,12 @@
 #ifndef SDCard_h
 #define SDCard_h
 
-#include "Arduino.h"
+#include <Arduino.h>
 #include <SD.h>
 #define DEBUG 0
 
 //The different datatypes that are possible to be written to the file
- enum DataType{
+enum DataType{
 	INT,
 	DOUBLE,
 	CHAR,
@@ -43,7 +43,7 @@ Each piece of information has a string label, a pointer to the data, and a DataT
 As well, there is a pointer to another DataSource. This allows the DataSources to be used as a linked list.
 When a line is logged, the list will be looped through, and each source will be written to a line in the log.
 */
-typedef struct {
+typedef struct DataSource {
 	DataType type;
 	char* label;
 	void* data;
@@ -61,7 +61,7 @@ private:
 	int _pin;
 	char* _logfile;
 	DataSource* _list;
-}
+};
 
 
 #endif

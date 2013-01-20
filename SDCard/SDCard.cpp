@@ -29,8 +29,8 @@ SDCard::SDCard(int pin)
 
 	for(int i=0; i<100; i++)
 	{
-		logfile[7] = '0' + i/10;
-		logfile[8] = '0' + i%10;
+		_logfile[7] = '0' + i/10;
+		_logfile[8] = '0' + i%10;
 		if(!SD.exists(_logfile))
 			break;
 	}
@@ -104,19 +104,19 @@ int SDCard::writeLine()
 		f.write(link->label);
 		f.flush();
 		switch(link->type) {
-			case DataType.INT:
+			case INT :
 				idata = (int *) link->data;
 				f.print(*idata, DEC);
 				break;
-			case DataType.DOUBLE:
+			case DOUBLE:
 				ddata = (double *) link->data;
 				f.print(*ddata, DEC);
 				break;
-			case DataType.CHAR:
+			case CHAR:
 				cdata = (char *) link->data;
 				f.write(cdata);
 				break;
-			case DataType.FLOAT:
+			case FLOAT:
 				fdata = (float *) link->data;
 				f.print(*fdata);
 				break;
