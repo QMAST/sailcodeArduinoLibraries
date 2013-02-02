@@ -16,11 +16,33 @@
  * Copyright (C) Stephen Cripps, 2013
  */
 
+/* Pololu Micro Servo controller class
+ *
+ * Basically the servo controller only needs to have serial commands sent
+ * to it, in accord with the mode of operation you choose. In this case,
+ * the library is using the MiniServo commands as opposed to the Pololu
+ * specific commands, which you can read about in the documentation
+ * posted on the wiki
+ */
+
+#ifndef pololu_servo_h
+#define pololu_servo_h
+
 #include <Arduino.h>
 
 class PololuMSC {
     private:
+        static const int RESET_HIGH_WAIT = 100;
+        static const int RESET_LOW_WAIT = 1000;
+
         Stream* serialCom;
+        int reset_pin;
     public:
-        PololuMSC(Stream*);
-}
+        /** One instance of an initialised serial port and the pin for
+         * the reset on the Pololu
+         */
+        PololuMSC(Stream*, int);
+        int restart();
+};
+
+#endif
