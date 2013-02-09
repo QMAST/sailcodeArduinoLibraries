@@ -2,8 +2,6 @@
 messages, uploading log files to an ftp server, and receiving text messages.
 
 
-
-
 */
 #ifndef Ibelium_h
 #define Ibelium_h
@@ -20,9 +18,9 @@ public:
 	int init();
 	int sendSMS(char* message, char* response);
 	int sendATCmd(char* cmd);
-	//char* checkError(); Not implemented yet
-private:
 	int sendATQuery(char* cmd, char* response);
+	//char* checkError(); Not implemented yet
+private:	
 	void switchModule();
 
 	int _error; //An error code

@@ -28,7 +28,7 @@ int Ibelium::sendATCmd(char* cmd) {
 int Ibelium::sendATQuery(char* cmd, char* response) {
 	//Send an AT command, and get the response from the board.
 
-	free(response); //Avoid creating a memory leak.
+	//free(response); //Avoid creating a memory leak.
 	_error=0;
 	_watchdog=0;
 
@@ -48,6 +48,7 @@ int Ibelium::sendATQuery(char* cmd, char* response) {
 
 		if(_watchdog>=1000) //No response received after a certain length of time
 		{
+			Serial.println("Watchdog timer gone");
 			_error=2;
 			break;
 		}
@@ -63,15 +64,17 @@ int Ibelium::sendATQuery(char* cmd, char* response) {
 
 		if(size>256){ //Reponse too long
 			_error = 1;
+			Serial.println(size);
 			break;
 		}
 
-	} while(!(buff[x-1]=='K' && buff[x-2]=='O'));//Keep Waiting for a response until the last two characters are 'OK'
+	} while(x<2 || !(buff[x-1]=='K' && buff[x-2]=='O')  );//Keep Waiting for a response until the last two characters are 'OK'
 
+	buff[x]=0x0;
 	response = buff;
 
-	if(_error!=0)
-		return 1;
+	if(_error==0)
+		return x;
 	else 
 		return 0;	
 }
@@ -88,3 +91,5 @@ void Ibelium::switchModule() {
     delay(2000);
     digitalWrite(onModulePin,LOW);
 }
+
+
